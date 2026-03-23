@@ -10,3 +10,6 @@ class CommentForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'placeholder': 'Ваш email'}),
             'body': forms.Textarea(attrs={'placeholder': 'Напишите комментарий...'}),
         }
+
+class SearchForm(forms.Form):
+    query = forms.CharField(label = 'Поиск', max_length = 100)

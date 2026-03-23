@@ -10,12 +10,17 @@
 <body>
   <div class="site-wrapper">
     <header class="site-header">
+      <form action="{% url 'blog:post_search' %}" method="get" class="header-search-form">
+        <input type="text" name="query" placeholder="Поиск..." class="header-search-input">
+        <button type="submit" class="header-search-button">Найти</button>
+      </form>
       <div class="site-header__inner">
         <a href="{% url 'blog:post_list' %}" class="site-logo">My Blog</a>
         <nav class="site-nav">
           <a href="{% url 'blog:post_list' %}" class="site-nav__link">Главная</a>
         </nav>
       </div>
+
     </header>
 
     <main class="site-main">
