@@ -1,0 +1,22 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Комментарий{% endblock %}
+
+{% block content %}
+<section class="comment-page">
+  {% if comment %}
+    <div class="comment-success-card">
+      <div class="comment-success-card__icon">✓</div>
+      <h2 class="comment-success-card__title">Комментарий добавлен</h2>
+      <p class="comment-success-card__text">
+        Спасибо, твой комментарий успешно сохранён.
+      </p>
+      <a href="{{ post.get_absolute_url }}" class="comment-success-card__link">
+        ← Вернуться к посту
+      </a>
+    </div>
+  {% else %}
+    {% include "blog/post/includes/comment_form.html" %}
+  {% endif %}
+</section>
+{% endblock %}

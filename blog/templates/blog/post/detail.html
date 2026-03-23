@@ -1,0 +1,62 @@
+{% extends "blog/base.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<section class="post-detail-page">
+  <article class="post-detail-card">
+    <div class="post-detail-card__top">
+      <span class="post-detail-card__badge">Публикация</span>
+      <h1 class="post-detail__title">{{ post.title }}</h1>
+
+      <p class="date post-detail__meta">
+        📅 {{ post.publish|date:"d.m.Y H:i" }} &nbsp;•&nbsp; ✍ {{ post.author }}
+      </p>
+    </div>
+
+    <div class="post-detail__content">
+      {{ post.body|linebreaks }}
+    </div>
+  </article>
+
+  <section class="comments-section">
+    {% with comments.count as total_comments %}
+      <div class="comments-section__header">
+        <h2 class="comments-section__title">
+          Комментарии
+        </h2>
+        <span class="comments-section__count">
+          {{ total_comments }} comment{{ total_comments|pluralize }}
+        </span>
+      </div>
+    {% endwith %}
+
+    <div class="comments-list">
+      {% for comment in comments %}
+        <article class="comment-card">
+          <div class="comment-card__header">
+            <div class="comment-card__author-block">
+              <span class="comment-card__number">#{{ forloop.counter }}</span>
+              <span class="comment-card__author">{{ comment.name }}</span>
+            </div>
+            <span class="comment-card__date">
+              {{ comment.created|date:"d.m.Y H:i" }}
+            </span>
+          </div>
+
+          <div class="comment-card__body">
+            {{ comment.body|linebreaks }}
+          </div>
+        </article>
+      {% empty %}
+        <div class="comments-empty">
+          <h3>Комментариев пока нет</h3>
+          <p>Стань первым, кто оставит отзыв к этой публикации.</p>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% include "blog/post/includes/comment_form.html" %}
+  </section>
+</section>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "blog/base.html" %}
+
+{% block title %}My Blog{% endblock %}
+
+{% block content %}
+<section class="blog-page">
+  <div class="blog-header">
+    <span class="blog-badge">Блог</span>
+    <h1 class="blog-title">My Blog</h1>
+    <p class="blog-subtitle">
+      Свежие публикации, заметки и интересные материалы
+    </p>
+  </div>
+
+  <div class="post-list">
+    {% for post in posts %}
+      <article class="post-card">
+        <div class="post-card__content">
+          <p class="post-meta">
+            <span class="post-meta__item">📅 {{ post.publish|date:"d.m.Y H:i" }}</span>
+            <span class="post-meta__dot">•</span>
+            <span class="post-meta__item">✍ {{ post.author }}</span>
+          </p>
+
+          <h2 class="post-card__title">
+            <a href="{{ post.get_absolute_url }}" class="post-card__link">
+              {{ post.title }}
+            </a>
+          </h2>
+
+          <div class="post-card__excerpt">
+            {{ post.body|truncatewords:30|linebreaks }}
+          </div>
+
+          <a href="{{ post.get_absolute_url }}" class="post-card__button">
+            Читать далее
+          </a>
+        </div>
+
+      </article>
+    {% empty %}
+      <div class="empty-posts">
+        <h2>Постов пока нет</h2>
+        <p>Здесь появятся публикации, как только ты добавишь их в админке.</p>
+      </div>
+    {% endfor %}
+    {% include "pagination.html" with page=posts %}
+  </div>
+</section>
+{% endblock %}

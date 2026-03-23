@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %}</title>
+  <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+</head>
+<body>
+  <div class="site-wrapper">
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a href="{% url 'blog:post_list' %}" class="site-logo">My Blog</a>
+        <nav class="site-nav">
+          <a href="{% url 'blog:post_list' %}" class="site-nav__link">Главная</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <div class="layout">
+        <section id="content" class="content-area">
+          {% block content %}
+          {% endblock %}
+        </section>
+
+        <aside id="sidebar" class="sidebar-area">
+          <div class="sidebar-card">
+            <h2 class="sidebar-title">My blog</h2>
+            <p class="sidebar-text">
+              Здесь публикуются статьи, заметки и новые материалы.
+            </p>
+          </div>
+
+          <div class="sidebar-card">
+            <h3 class="sidebar-subtitle">О проекте</h3>
+            <p class="sidebar-text">
+              Учебный блог на Django с постами, шаблонами и красивым layout.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
