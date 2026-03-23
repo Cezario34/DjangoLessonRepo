@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 # Create your models here.
-
+from taggit.managers import TaggableManager
 
 class PublishManager(models.Manager):
 	def get_queryset(self):
@@ -15,7 +15,7 @@ class Post(models.Model):
 		DRAFT = 'DF', 'Черновик'
 		PUBLISHED = 'PB', 'Опубликованный'
 
-
+	tags = TaggableManager()
 	title = models.CharField(max_length=200)
 	slug = models.SlugField(max_length=200, unique_for_date='publish')
 	author = models.ForeignKey(

@@ -19,6 +19,30 @@
     </div>
   </article>
 
+    <section class="similar-posts-section">
+    <div class="similar-posts-section__header">
+      <h2 class="similar-posts-section__title">Похожие посты</h2>
+    </div>
+
+    <div class="similar-posts-list">
+      {% for similar_post in similar_posts %}
+        <article class="similar-post-card">
+          <a href="{{ similar_post.get_absolute_url }}" class="similar-post-card__link">
+            {{ similar_post.title }}
+          </a>
+          <p class="similar-post-card__date">
+            {{ similar_post.publish|date:"d.m.Y" }}
+          </p>
+        </article>
+      {% empty %}
+        <div class="similar-posts-empty">
+          Похожих постов пока нет.
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+
+
   <section class="comments-section">
     {% with comments.count as total_comments %}
       <div class="comments-section__header">
