@@ -1,0 +1,193 @@
+.home-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.home-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 38px 34px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #ffffff 0%, #eff6ff 55%, #dbeafe 100%);
+    border: 1px solid #dbeafe;
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+}
+
+.home-hero::after {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.15), transparent 70%);
+    pointer-events: none;
+}
+
+.home-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.2);
+}
+
+.home-hero__title {
+    margin: 0 0 14px;
+    font-size: 44px;
+    line-height: 1.1;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.home-hero__subtitle {
+    max-width: 760px;
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.8;
+    color: #475569;
+}
+
+.home-date-card {
+    padding: 26px 30px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+}
+
+.section-title {
+    margin: 0 0 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.current-date {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.feature-card {
+    padding: 28px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.07);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 46px rgba(15, 23, 42, 0.1);
+    border-color: #bfdbfe;
+}
+
+.feature-card__icon {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 18px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    font-size: 28px;
+    box-shadow: inset 0 0 0 1px #dbeafe;
+}
+
+.feature-card__title {
+    margin: 0 0 12px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.feature-card__text {
+    margin: 0 0 22px;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #475569;
+}
+
+.feature-card__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #111827, #1f2937);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-shadow: 0 10px 24px rgba(17, 24, 39, 0.16);
+}
+
+.feature-card__button:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    box-shadow: 0 14px 28px rgba(37, 99, 235, 0.22);
+}
+
+@media (max-width: 768px) {
+    .home-page {
+        padding: 26px 16px 40px;
+        gap: 20px;
+    }
+
+    .home-hero {
+        padding: 28px 22px;
+        border-radius: 22px;
+    }
+
+    .home-hero__title {
+        font-size: 34px;
+    }
+
+    .home-hero__subtitle {
+        font-size: 15px;
+    }
+
+    .home-date-card {
+        padding: 22px 20px;
+    }
+
+    .current-date {
+        font-size: 24px;
+    }
+
+    .home-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-card {
+        padding: 22px;
+        border-radius: 20px;
+    }
+
+    .feature-card__title {
+        font-size: 24px;
+    }
+}

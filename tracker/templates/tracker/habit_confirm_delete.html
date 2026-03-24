@@ -1,0 +1,31 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}Удалить привычку{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/track_list.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="tracker-page">
+  <div class="tracker-header">
+    <span class="tracker-badge">Трекер</span>
+    <h1 class="tracker-title">Удаление привычки</h1>
+    <p class="tracker-subtitle">
+      Подтверди удаление привычки.
+    </p>
+  </div>
+
+  <div class="habit-form-card">
+    <h2 class="habit-delete-title">Ты действительно хочешь удалить привычку?</h2>
+    <p class="habit-delete-text"><strong>{{ habit.title }}</strong></p>
+
+    <form method="post" class="habit-form__actions">
+      {% csrf_token %}
+      <button type="submit" class="habit-delete-button">Удалить</button>
+      <a href="{% url 'tracker:habit_list' %}" class="habit-cancel-link">Отмена</a>
+    </form>
+  </div>
+</section>
+{% endblock %}

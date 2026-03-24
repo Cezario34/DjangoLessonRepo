@@ -1,0 +1,45 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}Главная{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/start.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="home-page">
+    <div class="home-hero">
+        <span class="home-hero__badge">Личное пространство</span>
+        <h1 class="home-hero__title">Добро пожаловать</h1>
+        <p class="home-hero__subtitle">
+            Это главная страница моих треков, вперед к победе!
+        </p>
+    </div>
+
+    <div class="home-date-card">
+        <h2 class="section-title">Сегодня</h2>
+        <p class="current-date">{{ current_date|date:"d.m.Y" }}</p>
+    </div>
+
+    <div class="home-grid">
+        <article class="feature-card">
+            <div class="feature-card__icon">📝</div>
+            <h2 class="feature-card__title">Блог</h2>
+            <p class="feature-card__text">
+                Личные записи, заметки, статьи и мысли в одном месте.
+            </p>
+            <a href="/blog/" class="feature-card__button">Перейти в блог</a>
+        </article>
+
+        <article class="feature-card">
+            <div class="feature-card__icon">✅</div>
+            <h2 class="feature-card__title">Привычки</h2>
+            <p class="feature-card__text">
+                Трекер привычек для ежедневного контроля и прогресса.
+            </p>
+            <a href="{% url 'tracker:habit_list' %}" class="feature-card__button">Открыть трекер</a>
+        </article>
+    </div>
+</section>
+{% endblock %}

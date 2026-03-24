@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}
+  {% if is_edit %}Редактировать привычку{% else %}Добавить привычку{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/track_list.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="tracker-page">
+  <div class="tracker-header">
+    <span class="tracker-badge">Трекер</span>
+    <h1 class="tracker-title">
+      {% if is_edit %}Редактировать привычку{% else %}Добавить привычку{% endif %}
+    </h1>
+    <p class="tracker-subtitle">
+      {% if is_edit %}
+        Измени название, описание или цель привычки.
+      {% else %}
+        Создай новую привычку для отслеживания.
+      {% endif %}
+    </p>
+  </div>
+
+  <div class="habit-form-card">
+    <form method="post" class="habit-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <div class="habit-form__actions">
+        <button type="submit" class="tracker-add-button">
+          {% if is_edit %}Сохранить изменения{% else %}Сохранить{% endif %}
+        </button>
+        <a href="{% url 'tracker:habit_list' %}" class="habit-cancel-link">Отмена</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

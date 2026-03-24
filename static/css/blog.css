@@ -49,9 +49,9 @@ img {
     max-width: 1240px;
     margin: 0 auto;
     padding: 18px 24px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 480px) 1fr;
     align-items: center;
-    justify-content: space-between;
     gap: 20px;
 }
 
@@ -67,9 +67,13 @@ img {
 }
 
 .site-nav {
+    grid-column: 3;
+    justify-self: end;
+    align-self: center;
     display: flex;
     align-items: center;
     gap: 18px;
+    margin: 0;
 }
 
 .site-nav__link {
@@ -1143,18 +1147,25 @@ img {
 }
 
 .header-search-form {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
+    align-items: center;
     gap: 8px;
-    flex-wrap: wrap;
+    width: min(480px, 42vw);
 }
 
+
 .header-search-input {
+    flex: 1;
+    min-width: 0;
     border: 1px solid rgba(255, 255, 255, 0.14);
     background: rgba(255, 255, 255, 0.10);
     color: #ffffff;
     border-radius: 12px;
     padding: 10px 12px;
-    min-width: 220px;
     outline: none;
 }
 
@@ -1162,7 +1173,9 @@ img {
     color: rgba(255, 255, 255, 0.75);
 }
 
+
 .header-search-button {
+    flex: 0 0 auto;
     border: none;
     border-radius: 12px;
     padding: 10px 14px;
@@ -1170,6 +1183,7 @@ img {
     color: #ffffff;
     font-weight: 700;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .header-search-button:hover {

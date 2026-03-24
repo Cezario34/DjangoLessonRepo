@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{% endblock %}</title>
   <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+  {% block extra_css %}{% endblock %}
 </head>
 <body>
   <div class="site-wrapper">
@@ -17,7 +18,7 @@
       <div class="site-header__inner">
         <a href="{% url 'blog:post_list' %}" class="site-logo">My Blog</a>
         <nav class="site-nav">
-          <a href="{% url 'blog:post_list' %}" class="site-nav__link">Главная</a>
+          <a href="/" class="site-nav__link">Главная</a>
         </nav>
       </div>
 
