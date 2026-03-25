@@ -2,74 +2,75 @@
 {% load static %}
 
 {% block title %}Привычки{% endblock %}
+
 {% block extra_css %}
-    <link href="{% static 'css/track_list.css' %}" rel="stylesheet">
+<link href="{% static 'css/track_list.css' %}" rel="stylesheet">
 {% endblock %}
+
 {% block content %}
-    <section class="tracker-page">
-        <div class="tracker-header">
-            <span class="tracker-badge">Трекер</span>
-            <h1 class="tracker-title">Мои привычки</h1>
-            <p class="tracker-subtitle">
-                Здесь будут привычки, прогресс и календарь выполнения.
-            </p>
-        </div>
+<section class="tracker-page">
+    <div class="tracker-header">
+        <span class="tracker-badge">Трекер</span>
+        <h1 class="tracker-title">Мои привычки</h1>
+        <p class="tracker-subtitle">
+            Здесь будут привычки, прогресс и календарь выполнения.
+        </p>
+    </div>
 
-        <div class="tracker-actions">
-            <a href="{% url 'tracker:habit_create' %}" class="tracker-add-button">Добавить привычку</a>
-        </div>
+    <div class="tracker-actions">
+        <a href="{% url 'tracker:habit_create' %}" class="tracker-add-button">Добавить привычку</a>
+    </div>
 
-        <div class="habit-grid">
-            {% for habit in habits %}
-                <article class="habit-card">
-                    <div class="habit-card__top">
-                        <h2 class="habit-card__title">{{ habit.title }}</h2>
-                        <span class="habit-card__period">
-            {{ habit.target_count }} / {{ habit.get_target_period_display }}
-          </span>
-                    </div>
-
-                    {% if habit.description %}
-                        <p class="habit-card__description">{{ habit.description }}</p>
-                    {% endif %}
-
-                    <div class="habit-card__progress">
-                        <div class="habit-card__progress-bar">
-                            <div class="habit-card__progress-fill" style="width: 0%;"></div>
-                        </div>
-                        <span class="habit-card__progress-text">0%</span>
-                    </div>
-
-                    <div class="habit-card__calendar">
-                        <span class="habit-day habit-day--empty"></span>
-                        <span class="habit-day habit-day--empty"></span>
-                        <span class="habit-day habit-day--empty"></span>
-                        <span class="habit-day habit-day--empty"></span>
-                        <span class="habit-day habit-day--empty"></span>
-                        <span class="habit-day habit-day--empty"></span>
-                        <span class="habit-day habit-day--empty"></span>
-                    </div>
-
-                    <div class="habit-card__actions">
-                        <a href="{% url 'tracker:habit_toggle_today' habit.id %}"
-                           class="habit-card__link {% if habit.id in completed_today_ids %}habit-card__link--success{% endif %}">
-                            {% if habit.id in completed_today_ids %}
-                                Выполнено сегодня
-                            {% else %}
-                                Отметить сегодня
-                            {% endif %}
-                        </a>
-                        <a href="{% url 'tracker:habit_update' habit.id %}" class="habit-card__link">Изменить</a> <a
-                            href="{% url 'tracker:habit_delete' habit.id %}"
-                            class="habit-card__link habit-card__link--danger">Удалить</a>
-                    </div>
-                </article>
-            {% empty %}
-                <div class="empty-habits">
-                    <h2>Привычек пока нет</h2>
-                    <p>Добавь первую привычку через кнопку выше.</p>
+    <div class="habit-grid">
+        {% for card in habit_cards %}
+            <article class="habit-card">
+                <div class="habit-card__top">
+                    <h2 class="habit-card__title">{{ card.habit.title }}</h2>
+                    <span class="habit-card__period">
+                        {{ card.habit.target_count }} / {{ card.habit.get_target_period_display }}
+                    </span>
                 </div>
-            {% endfor %}
-        </div>
-    </section>
+
+                {% if card.habit.description %}
+                    <p class="habit-card__description">{{ card.habit.description }}</p>
+                {% endif %}
+
+                <div class="habit-card__progress">
+                    <div class="habit-card__progress-bar">
+                        <div class="habit-card__progress-fill" style="width: {{ card.percent }}%;"></div>
+                    </div>
+                    <span class="habit-card__progress-text">{{ card.percent }}%</span>
+                </div>
+
+                <div class="habit-card__calendar">
+                    {% for day in card.calendar_days %}
+                        <div class="habit-day-block" title="{{ day.date|date:'d.m.Y' }}">
+                            <span class="habit-day-label">{{ day.weekday }}</span>
+                            <span class="habit-day {% if day.is_completed %}habit-day--done{% else %}habit-day--empty{% endif %} {% if day.is_today %}habit-day--today{% endif %}"></span>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            <div class="habit-card__actions">
+                <a href="{% url 'tracker:habit_toggle_today' card.habit.id %}"
+                   class="habit-toggle-btn {% if card.is_completed_today %}habit-toggle-btn--done{% else %}habit-toggle-btn--idle{% endif %}">
+                    {% if card.is_completed_today %}
+                        ✓ Выполнено сегодня
+                    {% else %}
+                        ○ Отметить сегодня
+                    {% endif %}
+                </a>
+
+                <a href="{% url 'tracker:habit_update' card.habit.id %}" class="habit-card__link">Изменить</a>
+                <a href="{% url 'tracker:habit_delete' card.habit.id %}" class="habit-card__link habit-card__link--danger">Удалить</a>
+            </div>
+            </article>
+        {% empty %}
+            <div class="empty-habits">
+                <h2>Привычек пока нет</h2>
+                <p>Добавь первую привычку через кнопку выше.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}
