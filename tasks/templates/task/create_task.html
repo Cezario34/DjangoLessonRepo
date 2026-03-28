@@ -1,0 +1,32 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}Добавить задачу{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/task.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="tasks-page">
+    <div class="tasks-header tasks-header--single">
+        <div>
+            <span class="tasks-badge">Задачи</span>
+            <h1 class="tasks-title">Добавить задачу</h1>
+            <p class="tasks-subtitle">Создай новую задачу для себя.</p>
+        </div>
+    </div>
+
+    <div class="task-form-card">
+        <form method="post" class="task-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="task-form__actions">
+                <button type="submit" class="tasks-add-button">Сохранить</button>
+                <a href="{% url 'tasks:task_list' %}" class="task-cancel-link">Отмена</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

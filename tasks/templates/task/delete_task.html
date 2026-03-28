@@ -1,0 +1,31 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}Удалить задачу{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/task.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="tasks-page">
+    <div class="tasks-header tasks-header--single">
+        <div>
+            <span class="tasks-badge">Задачи</span>
+            <h1 class="tasks-title">Удаление задачи</h1>
+            <p class="tasks-subtitle">Подтверди удаление задачи.</p>
+        </div>
+    </div>
+
+    <div class="task-form-card">
+        <h2 class="task-delete-title">Удалить задачу?</h2>
+        <p class="task-delete-text"><strong>{{ task.title }}</strong></p>
+
+        <form method="post" class="task-form__actions">
+            {% csrf_token %}
+            <button type="submit" class="task-delete-button">Удалить</button>
+            <a href="{% url 'tasks:task_list' %}" class="task-cancel-link">Отмена</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

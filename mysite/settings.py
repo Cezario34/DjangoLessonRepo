@@ -27,20 +27,24 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+LOGIN_URL = 'mainpage:login'
+LOGIN_REDIRECT_URL = 'mainpage:welcome_page'
+LOGOUT_REDIRECT_URL = 'mainpage:login'
 # Application definition
 
 INSTALLED_APPS = [
+    'tasks',
+    'blog.apps.BlogConfig',
+    'taggit',
+    'mainpage.apps.MainpageConfig',
+    'tracker.apps.TrackerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog.apps.BlogConfig',
-    'taggit',
-    'mainpage.apps.MainpageConfig',
-    'tracker.apps.TrackerConfig',
+
 ]
 
 MIDDLEWARE = [

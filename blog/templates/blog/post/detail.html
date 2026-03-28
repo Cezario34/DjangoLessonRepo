@@ -6,6 +6,9 @@
 <section class="post-detail-page">
   <article class="post-detail-card">
     <div class="post-detail-card__top">
+        <a href="{% url 'blog:edit_post' post.publish.year post.publish.month post.publish.day post.slug %}" class="post-action-link">
+    Редактировать пост
+</a>
       <span class="post-detail-card__badge">Публикация</span>
       <h1 class="post-detail__title">{{ post.title }}</h1>
 

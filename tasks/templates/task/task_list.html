@@ -1,0 +1,113 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}Задачи{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/task.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="tasks-page">
+    <div class="tasks-header">
+        <div>
+            <span class="tasks-badge">Задачи</span>
+            <h1 class="tasks-title">Мои задачи</h1>
+            <p class="tasks-subtitle">
+                Активные и выполненные задачи в одном месте.
+            </p>
+        </div>
+
+        <a href="{% url 'tasks:task_create' %}" class="tasks-add-button">Добавить задачу</a>
+    </div>
+
+    <div class="tasks-section">
+        <h2 class="tasks-section__title">Активные задачи</h2>
+        <div class="task-period-tabs">
+            <a href="{% url 'tasks:task_list' %}" class="task-period-tab {% if selected_period == 'all' %}task-period-tab--active{% endif %}">Все</a>
+            <a href="{% url 'tasks:task_list' %}?period=year" class="task-period-tab {% if selected_period == 'year' %}task-period-tab--active{% endif %}">Год</a>
+            <a href="{% url 'tasks:task_list' %}?period=quarter" class="task-period-tab {% if selected_period == 'quarter' %}task-period-tab--active{% endif %}">Квартал</a>
+            <a href="{% url 'tasks:task_list' %}?period=month" class="task-period-tab {% if selected_period == 'month' %}task-period-tab--active{% endif %}">Месяц</a>
+            <a href="{% url 'tasks:task_list' %}?period=week" class="task-period-tab {% if selected_period == 'week' %}task-period-tab--active{% endif %}">Неделя</a>
+            <a href="{% url 'tasks:task_list' %}?period=day" class="task-period-tab {% if selected_period == 'day' %}task-period-tab--active{% endif %}">День</a>
+        </div>
+        <div class="task-list">
+            {% for task in active_tasks %}
+                <article class="task-card">
+                    <div class="task-card__top">
+                        <h2 class="task-card__title">{{ task.title }}</h2>
+
+                        {% if task.due_date %}
+                            <span class="task-card__due-date">
+                                До {{ task.due_date|date:"d.m.Y" }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    {% if task.description %}
+                        <p class="task-card__description">{{ task.description }}</p>
+                    {% endif %}
+
+                    <div class="task-card__meta">
+                        <span>Создана: {{ task.created_at|date:"d.m.Y H:i" }}</span>
+                    </div>
+
+                    <div class="task-card__actions">
+                        <a href="{% url 'tasks:task_toggle_complete' task.id %}" class="task-card__link task-card__link--complete">
+                            ○ Выполнить
+                        </a>
+                        <a href="{% url 'tasks:task_update' task.id %}" class="task-card__link">Изменить</a>
+                        <a href="{% url 'tasks:task_delete' task.id %}" class="task-card__link task-card__link--danger">Удалить</a>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="empty-tasks">
+                    <h2>Активных задач нет</h2>
+                    <p>Сейчас всё закрыто.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="tasks-section">
+        <h2 class="tasks-section__title">Выполненные задачи</h2>
+
+        <div class="task-list">
+            {% for task in completed_tasks %}
+                <article class="task-card task-card--done">
+                    <div class="task-card__top">
+                        <h2 class="task-card__title">{{ task.title }}</h2>
+
+                        {% if task.due_date %}
+                            <span class="task-card__due-date">
+                                До {{ task.due_date|date:"d.m.Y" }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    {% if task.description %}
+                        <p class="task-card__description">{{ task.description }}</p>
+                    {% endif %}
+
+                    <div class="task-card__meta">
+                        <span>Создана: {{ task.created_at|date:"d.m.Y H:i" }}</span>
+                    </div>
+
+                    <div class="task-card__actions">
+                        <a href="{% url 'tasks:task_toggle_complete' task.id %}" class="task-card__link task-card__link--done">
+                            ↺ Вернуть в работу
+                        </a>
+                        <a href="{% url 'tasks:task_update' task.id %}" class="task-card__link">Изменить</a>
+                        <a href="{% url 'tasks:task_delete' task.id %}" class="task-card__link task-card__link--danger">Удалить</a>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="empty-tasks">
+                    <h2>Выполненных задач пока нет</h2>
+                    <p>Здесь будут отображаться закрытые задачи.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

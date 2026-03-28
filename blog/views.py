@@ -1,19 +1,23 @@
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post
 from django.views.decorators.http import require_POST
-from .forms import CommentForm, SearchForm
-
+from .forms import CommentForm, SearchForm, PostForm
+from slugify import slugify
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from taggit.models import Tag
 from django.db.models import Count, Q
 
+
+
+@login_required
 def post_list(request,tag_slug=None):
 	post_list  = Post.published.all()
 	tag = None
 	if tag_slug:
 		tag = get_object_or_404(Tag, slug = tag_slug)
-		post_list = post_list .filter(tags__in = [tag])
+		post_list = post_list.filter(tags__in = [tag])
 	paginator = Paginator(post_list , 3)
 	page_number = request.GET.get('page', 1)
 	try:
@@ -30,7 +34,7 @@ def post_list(request,tag_slug=None):
 		{'posts': posts,
 			'tag': tag,}
 		)
-
+@login_required
 def post_search(request):
 	form = SearchForm()
 	query = None
@@ -54,7 +58,7 @@ def post_search(request):
 		}
 	)
 # Create your views here.
-
+@login_required
 def post_detail(request, year, month, day, post):
 	post = get_object_or_404(
 		Post.published,
@@ -93,5 +97,59 @@ def post_comment(request, post_id):
 			'post': post,
 			'form': form,
 			'comment': comment
+			}
+		)
+
+@login_required
+def add_post(request):
+	if request.method == 'POST':
+		form = PostForm(request.POST)
+		if form.is_valid():
+			comment = form.save(commit = False)
+			comment.author = request.user
+			comment.slug = slugify(comment.title)
+			comment.save()
+			form.save_m2m()
+			return redirect(comment.get_absolute_url())
+		else:
+			print(form.errors)
+
+	else:
+		form = PostForm()
+	return render(
+		request,
+		'blog/post/post_form.html',
+		{'form': form}
+	)
+
+@login_required
+def edit_post(request, year, month, day, post):
+	post = get_object_or_404(
+		Post.published,
+		slug = post,
+		publish__year = year,
+		publish__month = month,
+		publish__day = day
+
+		)
+
+	if request.method == 'POST':
+		form = PostForm(request.POST, instance = post)
+		if form.is_valid():
+			post = form.save(commit = False)
+			post.author = request.user
+			post.slug = slugify(post.title)
+			post.save()
+			return redirect(post.get_absolute_url())
+	else:
+		form = PostForm(instance = post)
+
+	return render(
+		request,
+		'blog/post/post_form.html',
+		{
+			'form': form,
+			'post_obj': post,
+			'is_edit': True,
 			}
 		)

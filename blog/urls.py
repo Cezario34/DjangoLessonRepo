@@ -22,4 +22,10 @@ urlpatterns = [
         name='post_list_by_tag'
     ),
     path('search/', views.post_search, name='post_search'),
+    path('add_post/', views.add_post, name='add_post'),
+    path(
+        '<int:year>/<int:month>/<int:day>/<slug:post>/edit/',
+        views.edit_post,
+        name='edit_post'
+    ),
     ]

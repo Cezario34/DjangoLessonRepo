@@ -23,7 +23,7 @@
 
     <div class="habit-grid">
         {% for card in habit_cards %}
-            <article class="habit-card">
+            <article class="habit-card {% if card.is_completed_today %}habit-card--done-today{% endif %}">
                 <div class="habit-card__top">
                     <h2 class="habit-card__title">{{ card.habit.title }}</h2>
                     <span class="habit-card__period">

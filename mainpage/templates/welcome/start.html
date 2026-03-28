@@ -31,7 +31,14 @@
             </p>
             <a href="/blog/" class="feature-card__button">Перейти в блог</a>
         </article>
-
+        <article class="feature-card">
+            <div class="feature-card__icon">📌</div>
+            <h2 class="feature-card__title">Задачи</h2>
+            <p class="feature-card__text">
+                Список задач по периодам: день, неделя, месяц, квартал и год.
+            </p>
+            <a href="{% url 'tasks:task_list' %}" class="feature-card__button">Открыть задачи</a>
+        </article>
         <article class="feature-card">
             <div class="feature-card__icon">✅</div>
             <h2 class="feature-card__title">Привычки</h2>
@@ -40,6 +47,64 @@
             </p>
             <a href="{% url 'tracker:habit_list' %}" class="feature-card__button">Открыть трекер</a>
         </article>
+
+        <div class="home-section-card">
+            <h2 class="section-title">Последний пост</h2>
+
+            {% if latest_post %}
+                <div class="home-post-card">
+                    <h3 class="home-post-card__title">
+                        <a href="{{ latest_post.get_absolute_url }}">{{ latest_post.title }}</a>
+                    </h3>
+                    <p class="home-post-card__meta">
+                        {{ latest_post.publish|date:"d.m.Y H:i" }}
+                    </p>
+                    <div class="home-post-card__excerpt">
+                        {{ latest_post.body|truncatewords:25|linebreaks }}
+                    </div>
+                </div>
+            {% else %}
+                <p>Постов пока нет.</p>
+            {% endif %}
+        </div>
+
+        <div class="home-section-card">
+            <h2 class="section-title">Открытые привычки на сегодня</h2>
+
+            {% if open_habits %}
+                <div class="home-habit-list">
+                    {% for habit in open_habits %}
+                        <div class="home-habit-item">
+                            <span>{{ habit.title }}</span>
+                            <a href="{% url 'tracker:habit_toggle_today' habit.id %}" class="home-habit-item__button">
+                                Отметить
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Сегодня все привычки закрыты 🎉</p>
+            {% endif %}
+        </div>
+
+        <div class="home-section-card">
+            <h2 class="section-title">Задачи на сегодня</h2>
+
+            {% if tasks %}
+                <div class="home-habit-list">
+                    {% for task in tasks %}
+                        <div class="home-habit-item">
+                            <span>{{ task.title }}</span>
+                            <a href="{% url 'tasks:task_toggle_complete' task.id %}" class="home-habit-item__button">
+                                Выполнить
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Задач на сегодня нет.</p>
+            {% endif %}
+        </div>
     </div>
 </section>
 {% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}
+  {% if form.instance.pk %}Редактировать пост{% else %}Добавить пост{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/post_form.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="post-form-page">
+    <div class="post-form-header">
+        <span class="post-form-badge">Блог</span>
+        <h1 class="post-form-title">
+            {% if form.instance.pk %}Редактировать пост{% else %}Добавить пост{% endif %}
+        </h1>
+        <p class="post-form-subtitle">
+            {% if form.instance.pk %}
+                Обнови заголовок, slug, текст и статус публикации.
+            {% else %}
+                Создай новую запись для своего блога.
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="post-form-card">
+        <form method="post" class="post-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="post-form-error-box">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="post-form-group">
+                <label for="{{ form.title.id_for_label }}">Заголовок</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="post-form-field-error">{{ form.title.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="post-form-group">
+                <label for="{{ form.body.id_for_label }}">Текст поста</label>
+                {{ form.body }}
+                {% if form.body.errors %}
+                    <div class="post-form-field-error">{{ form.body.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="post-form-group">
+                <label for="{{ form.status.id_for_label }}">Статус</label>
+                {{ form.status }}
+                {% if form.status.errors %}
+                    <div class="post-form-field-error">{{ form.status.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="post-form-actions">
+                <button type="submit" class="post-form-submit">
+                    {% if form.instance.pk %}Сохранить изменения{% else %}Создать пост{% endif %}
+                </button>
+                <a href="{% url 'blog:post_list' %}" class="post-form-cancel">Отмена</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

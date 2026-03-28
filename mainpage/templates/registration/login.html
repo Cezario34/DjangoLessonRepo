@@ -1,0 +1,48 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}Вход{% endblock %}
+
+{% block extra_css %}
+<link href="{% static 'css/login.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<section class="login-page">
+    <div class="login-card">
+        <div class="login-card__header">
+            <span class="login-card__badge">Аккаунт</span>
+            <h1 class="login-card__title">Вход</h1>
+            <p class="login-card__subtitle">
+                Войди в свой аккаунт, чтобы управлять блогом и трекером привычек.
+            </p>
+        </div>
+
+        <form method="post" class="login-form">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="login-form__error-box">
+                    Неверный логин или пароль. Попробуй ещё раз.
+                </div>
+            {% endif %}
+
+            <div class="login-form__group">
+                <label for="{{ form.username.id_for_label }}">Логин</label>
+                {{ form.username }}
+            </div>
+
+            <div class="login-form__group">
+                <label for="{{ form.password.id_for_label }}">Пароль</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="login-form__button">Войти</button>
+
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
+        </form>
+    </div>
+</section>
+{% endblock %}

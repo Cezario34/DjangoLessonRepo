@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('mainpage.urls', namespace='mainpage')),
     path('blog/', include('blog.urls', namespace='blog')),
     path('tracker/', include('tracker.urls', namespace='tracker')),
+    path('tasks/', include('tasks.urls', namespace='tasks')),
 ]

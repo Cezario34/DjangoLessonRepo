@@ -4,8 +4,14 @@
 
 {% block content %}
 <div class="blog-header">
-  <span class="blog-badge">Блог</span>
-  <h1 class="blog-title">My Blog</h1>
+  <div class="blog-header__top">
+    <div>
+      <span class="blog-badge">Блог</span>
+      <h1 class="blog-title">My Blog</h1>
+    </div>
+
+    <a href="{% url 'blog:add_post' %}" class="blog-add-button">Добавить пост</a>
+  </div>
 
   {% if tag %}
     <div class="active-tag-banner">
@@ -25,53 +31,52 @@
   {% endif %}
 </div>
 
-  <div class="post-list">
-    {% for post in posts %}
-      <article class="post-card">
-        <div class="post-card__content">
-          <p class="post-meta">
-            <span class="post-meta__item">📅 {{ post.publish|date:"d.m.Y H:i" }}</span>
-            <span class="post-meta__dot">•</span>
-            <span class="post-meta__item">✍ {{ post.author }}</span>
+<div class="post-list">
+  {% for post in posts %}
+    <article class="post-card">
+      <div class="post-card__content">
+        <p class="post-meta">
+          <span class="post-meta__item">📅 {{ post.publish|date:"d.m.Y H:i" }}</span>
+          <span class="post-meta__dot">•</span>
+          <span class="post-meta__item">✍ {{ post.author }}</span>
+        </p>
+
+        {% if post.tags.all %}
+          <p class="post-tags">
+            <span class="post-tags__label">Теги:</span>
+            {% for tag_item in post.tags.all %}
+              <a
+                href="{% url 'blog:post_list_by_tag' tag_item.slug %}"
+                class="post-tag-link {% if tag and tag.slug == tag_item.slug %}post-tag-link--active{% endif %}"
+              >
+                {{ tag_item.name }}
+              </a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
           </p>
+        {% endif %}
 
-          {% if post.tags.all %}
-            <p class="post-tags">
-              <span class="post-tags__label">Теги:</span>
-              {% for tag_item in post.tags.all %}
-                <a
-                  href="{% url 'blog:post_list_by_tag' tag_item.slug %}"
-                  class="post-tag-link {% if tag and tag.slug == tag_item.slug %}post-tag-link--active{% endif %}"
-                >
-                  {{ tag_item.name }}
-                </a>{% if not forloop.last %}, {% endif %}
-              {% endfor %}
-            </p>
-          {% endif %}
-          <h2 class="post-card__title">
-            <a href="{{ post.get_absolute_url }}" class="post-card__link">
-              {{ post.title }}
-
-            </a>
-          </h2>
-
-          <div class="post-card__excerpt">
-            {{ post.body|truncatewords:30|linebreaks }}
-          </div>
-
-          <a href="{{ post.get_absolute_url }}" class="post-card__button">
-            Читать далее
+        <h2 class="post-card__title">
+          <a href="{{ post.get_absolute_url }}" class="post-card__link">
+            {{ post.title }}
           </a>
+        </h2>
+
+        <div class="post-card__excerpt">
+          {{ post.body|truncatewords:30|linebreaks }}
         </div>
 
-      </article>
-    {% empty %}
-      <div class="empty-posts">
-        <h2>Постов пока нет</h2>
-        <p>Здесь появятся публикации, как только ты добавишь их в админке.</p>
+        <a href="{{ post.get_absolute_url }}" class="post-card__button">
+          Читать далее
+        </a>
       </div>
-    {% endfor %}
-    {% include "pagination.html" with page=posts %}
-  </div>
-</section>
+    </article>
+  {% empty %}
+    <div class="empty-posts">
+      <h2>Постов пока нет</h2>
+      <p>Здесь появятся публикации, как только ты добавишь их в админке.</p>
+    </div>
+  {% endfor %}
+
+  {% include "pagination.html" with page=posts %}
+</div>
 {% endblock %}
